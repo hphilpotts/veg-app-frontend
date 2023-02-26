@@ -1,0 +1,19 @@
+.auth-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.auth-paper {
+    margin: auto;
+    top: 50%;
+    bottom: 50%;
+    width: 90vw;
+    height: auto;
+    max-width: 37.5em;
+}
+
+.spacer {
+    margin-top: 10%;
+}
