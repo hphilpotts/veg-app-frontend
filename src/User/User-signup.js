@@ -27,21 +27,21 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 1,
+            marginTop: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-            <Box
-                component="img"
-                    sx={{
-                      maxHeight: { xs: 120, md: 180 },
-                      maxWidth: { xs: 120, md: 180 },
-                    }}
-                    alt="The house from the offer."
-                    src="/img/a1.png"
-            />
+          <Box
+            component="img"
+            sx={{
+              maxHeight: { xs: 120, md: 180 },
+              maxWidth: { xs: 120, md: 180 },
+            }}
+            alt="Veg App logo: app name in retro green font against a red tomato."
+            src="/img/logo.png"
+          />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
