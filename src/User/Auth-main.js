@@ -8,14 +8,17 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 
 import './User.css'
 
-export default function Auth() {
+export default function Auth(props) {
+
+  const registerHandler = props.register;
+
   return (
     <>
       <Box className='auth-container'>
         <Paper elevation={3} className='auth-paper'>
           <Routes>
             <Route path='signin' element={<SignIn />}></Route>
-            <Route path='signup' element={<SignUp />}></Route>
+            <Route path='signup' element={<SignUp register={registerHandler}/>}></Route>
           </Routes>
           <Outlet />
         </Paper>

@@ -38,3 +38,14 @@
 
 _Errors/warnings now cleared!_      
 
+--- 
+
+![App in early stages once routing sorted](public/readme/screenshot010323.png)       
+
+---     
+
+- Now working on hooking up signup to the back end. Firstly, I have quickly been able to get a new user `{ userName, emailAddress, password }` from `User-signup` form.     
+- Next, Axios installed and `registerHandler` function passed to main auth and then signin as props. A couple of silly mistakes - again thanks to being rusty - for example failing to include `props` when declaring functional components in auth and signin, and passing register handler as a function call rather than a variable...       
+- `user` now being passed successfully back to `App.js`:        
+![user from User-signup.js showing via console log in App.js](./public/readme/userpassed.png)       
+- Next step is linking frontend to backend!     

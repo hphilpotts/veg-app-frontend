@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,14 +11,25 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp(props) {
+
+  const [newUser, setNewUser] = useState({});
+
+  const registerHandler = () => {
+    props.register(newUser)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
+    const user = {
+      userName: data.get('Username'),
+      emailAddress: data.get('email'),
       password: data.get('password'),
-    });
+    }
+    console.log(user);
+    setNewUser(user)
+    registerHandler(newUser);
   };
 
   return (
@@ -51,7 +62,7 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="username"
+                  id="userName"
                   label="Username"
                   name="Username"
                   autoComplete="username"
@@ -61,7 +72,7 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
+                  id="emailAddress"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
