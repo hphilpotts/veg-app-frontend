@@ -48,4 +48,24 @@ _Errors/warnings now cleared!_
 - Next, Axios installed and `registerHandler` function passed to main auth and then signin as props. A couple of silly mistakes - again thanks to being rusty - for example failing to include `props` when declaring functional components in auth and signin, and passing register handler as a function call rather than a variable...       
 - `user` now being passed successfully back to `App.js`:        
 ![user from User-signup.js showing via console log in App.js](./public/readme/userpassed.png)       
+
 - Next step is linking frontend to backend!     
+_Aaaand look who it is!:_     
+![CORS error from auth](./public/readme/corserrorauth.png)      
+
+- `"proxy"` added in `package.json`.        
+- Issue seen where relative route being used in `Axios.post` (e.g. `localhost:3000/user/auth/signup` rather than `localhost:3000/auth/signup`) - very simple fix of course: adding a `/` in front of post route.       
+
+
+_Now all working ok!_       
+
+---     
+![successful request - frontend browser console](./public/readme/signupsent.png)        
+
+---     
+
+![successful request - backend console](./public/readme/signup200.png)      
+
+---     
+
+

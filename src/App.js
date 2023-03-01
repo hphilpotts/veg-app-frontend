@@ -14,9 +14,9 @@ export default function App() {
   const [user, setUser] = useState({}) // user state inits to empty obj
   const [message, setMessage] = useState(null) // message state inits to null
 
-  const registerHandler = (user) => {
-    Axios.post("auth/signup", user)
-    console.log(user)
+  const registerHandler = async user => {
+    console.log(user);
+    Axios.post("/auth/signup", user)
     .then(response => {
       console.log(response);
     })
