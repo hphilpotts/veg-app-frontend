@@ -11,3 +11,30 @@
 - `react-router-dom` installed, MUI sign in template also added. _Having some intial difficulty nesting routes within routes (specifically `/auth` for Auth-main component and then onto child components for sign in and sign up.)_.       
 - Clearly quite rusty in this regard: quickly realised I should not be using `<Router>` elements in child components... Thanks to the [tutorial here](https://dev.to/tywenk/how-to-use-nested-routes-in-react-router-6-4jhd) I was able to get things working as intended.      
 
+28/02/23:       
+- Console error : `Warning: validateDOMNesting(...): <body> cannot appear as a child of <div>.` resolved through changing `<body>` element in `App.js` to a `<div>`.        
+
+01/03/23:       
+- Also seeing `Matched leaf route at location "/user/signup" does not have an element. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.` - app seems to be working as intended but I want to resolve this issue as it appears.      
+- Firstly, it does not appear to be caused by either the use of a deprecated prop or the presence of a typo as per [stackoverflow](https://stackoverflow.com/questions/69854011/matched-leaf-route-at-location-does-not-have-an-element). Having confirmed version of `react-router-dom` as `6.*`, I checked the relevant documentation and a series of articles without shedding any light on the issue.       
+- Eventually - through playing around - I was able to resolve the issue through the use of Outlet and the deletion of unneeded child routes in `App.js` like so:     
+
+```
+// App.js:
+    <Routes>
+      <Route path='/' element={<Home />}></Route>
+      <Route path='user/*' element={<Auth />}></Route>
+    </Routes>
+```     
+
+```
+// Auth-main.js
+<Routes>
+  <Route path='signin' element={<SignIn />}></Route>
+  <Route path='signup' element={<SignUp />}></Route>
+</Routes>
+<Outlet />
+```     
+
+_Errors/warnings now cleared!_      
+

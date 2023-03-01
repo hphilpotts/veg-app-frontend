@@ -4,21 +4,22 @@ import { Box, Paper } from '@mui/material';
 import SignUp from './User-signup';
 import SignIn from './User-signin';
 
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Outlet } from 'react-router-dom';
 
 import './User.css'
 
 export default function Auth() {
   return (
     <>
-        <Box className='auth-container'>
-          <Paper elevation={3} className='auth-paper'>
-            <Routes>
-              <Route path='signin' element={<SignIn/>}></Route>
-              <Route path='signup' element={<SignUp/>}></Route>
-            </Routes>
-          </Paper>
-        </Box>
+      <Box className='auth-container'>
+        <Paper elevation={3} className='auth-paper'>
+          <Routes>
+            <Route path='signin' element={<SignIn />}></Route>
+            <Route path='signup' element={<SignUp />}></Route>
+          </Routes>
+          <Outlet />
+        </Paper>
+      </Box>
     </>
   )
 }
