@@ -68,4 +68,24 @@ _Now all working ok!_
 
 ---     
 
+- Next step is to handle successful requests by returning a valid token, saving in session storage and then redirecting to the appropriate page.        
 
+06/03/23:       
+- Having revisited this after a couple of days off, I immediately spotted that the frontend was returning a message in the response but no token. Backend updated to ensure a 'good' response is returned correctly.        
+- Another issue seen: upon first form submit an Axios error is returned, however the second form submit works ok. Subsequent submissions result in alternating 'not working, working' pattern:      
+
+![alternating error / successes](./public/readme/usernotbeingpassed.png)        
+
+_Upon looking more closely, `App.js` is not being passed a `user` object: on first submit this results in a 500 error, on subsequent submits the previously submitted `user` is passed to `registerHandler` (hence the later 400 error code with the message `message : "Email already exists"`)._      
+
+- Looking at console.logs, the issue seems to lie with the fact that the `newUser` state in `User-signup.js` is not updating in time before being sent via `registerHandler`.       
+- _I've got a choice here:_ one option is to update newUser using a change handler on each keystroke (meaning a fully updated newUser is ready upon submit button click). The other option - the one that I have gone for - is to use `useEffect`, calling `registerHandler` with the updated `newUser` passed in (within an `if` statement to prevent a `registerHandler` call upon first component load):     
+
+```
+  useEffect(() => {
+    console.log(newUser)
+    if (newUser.userName) {
+      registerHandler(newUser)
+    }
+  })
+```

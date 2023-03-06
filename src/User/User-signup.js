@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -19,7 +19,7 @@ export default function SignUp(props) {
     props.register(newUser)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const user = {
@@ -28,9 +28,15 @@ export default function SignUp(props) {
       password: data.get('password'),
     }
     console.log(user);
-    setNewUser(user)
-    registerHandler(newUser);
+    setNewUser(user);
   };
+
+  useEffect(() => {
+    console.log(newUser)
+    if (newUser.userName) { // this is to prevent registerHandler call on component load
+      registerHandler(newUser)
+    }
+  })
 
   return (
     <ThemeProvider theme={theme}>
