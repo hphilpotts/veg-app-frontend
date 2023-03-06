@@ -15,17 +15,23 @@ export default function App() {
   const [message, setMessage] = useState(null) // message state inits to null
 
   const registerHandler = async user => {
-    await user;
-    // console.log(user);
     Axios.post("/auth/signup", user)
     .then(response => {
-      // * response.data.token for token!
-      console.log(response.data.token);
+      checkForTokenAndSave(response.data.token)
     })
     .catch(error => {
       console.log(error);
     })
   }
+
+const checkForTokenAndSave = token => {
+  if (token) {
+    sessionStorage.setItem("token", token)
+    console.log('token saved in session storage')
+  } else {
+    console.error('no token returned')
+  }
+}
 
   return (
     <div id='main'>

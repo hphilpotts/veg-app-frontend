@@ -68,7 +68,8 @@ _Now all working ok!_
 
 ---     
 
-- Next step is to handle successful requests by returning a valid token, saving in session storage and then redirecting to the appropriate page.        
+- Next step is to handle successful requests by returning a valid token, saving in session storage and then redirecting to the appropriate page. 
+    _Note - this was not the next step...!_               
 
 06/03/23:       
 - Having revisited this after a couple of days off, I immediately spotted that the frontend was returning a message in the response but no token. Backend updated to ensure a 'good' response is returned correctly.        
@@ -109,3 +110,6 @@ _I've realised that the above solution can be dispensed with and the entire func
   };
 ```     
 
+_Now I should be able to focus on storing a valid token and redirecting to the appropriate page!_       
+
+- `registerHandler` updated to now save tokens in Session Storage.      
