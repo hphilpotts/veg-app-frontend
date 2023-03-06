@@ -89,3 +89,23 @@ _Upon looking more closely, `App.js` is not being passed a `user` object: on fir
     }
   })
 ```
+
+_I've realised that the above solution can be dispensed with and the entire functionality simplified through avoiding using states altogether, instead passing the `user` object from the form directly into `registerHandler`..._
+
+```
+  const registerHandler = user => {
+    props.register(user)
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const user = {
+      userName: data.get('Username'),
+      emailAddress: data.get('email'),
+      password: data.get('password'),
+    }
+    registerHandler(user)
+  };
+```     
+

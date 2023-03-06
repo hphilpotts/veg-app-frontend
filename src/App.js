@@ -16,11 +16,11 @@ export default function App() {
 
   const registerHandler = async user => {
     await user;
-    console.log(user);
+    // console.log(user);
     Axios.post("/auth/signup", user)
     .then(response => {
       // * response.data.token for token!
-      console.log(response);
+      console.log(response.data.token);
     })
     .catch(error => {
       console.log(error);

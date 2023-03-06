@@ -13,10 +13,8 @@ const theme = createTheme();
 
 export default function SignUp(props) {
 
-  const [newUser, setNewUser] = useState({});
-
-  const registerHandler = () => {
-    props.register(newUser)
+  const registerHandler = user => {
+    props.register(user)
   }
 
   const handleSubmit = async (event) => {
@@ -27,16 +25,8 @@ export default function SignUp(props) {
       emailAddress: data.get('email'),
       password: data.get('password'),
     }
-    console.log(user);
-    setNewUser(user);
+    registerHandler(user)
   };
-
-  useEffect(() => {
-    console.log(newUser)
-    if (newUser.userName) { // this is to prevent registerHandler call on component load
-      registerHandler(newUser)
-    }
-  })
 
   return (
     <ThemeProvider theme={theme}>
