@@ -1,53 +1,54 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Axios from 'axios';
 import './App.css';
 
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 
 import Auth from './User/Auth-main';
 import Home from './Home';
+import NoMatch from './Err/No-match';
 
 export default function App() {
 
-  // state variables for authentication:
-  const [isAuth, setIsAuth] = useState(false) // isAuth state inits to false
-  const [user, setUser] = useState({}) // user state inits to empty obj
-  const [message, setMessage] = useState(null) // message state inits to null
+  const navigate = useNavigate()
 
   const registerHandler = async user => {
     Axios.post("/auth/signup", user)
-    .then(response => {
-      checkForTokenAndSave(response.data.token)
-    })
-    .catch(error => {
-      console.log(error);
-    })
+      .then(response => {
+        checkForTokenAndSave(response.data.token)
+        if (response.data.token) {
+          navigate('/')
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      })
   }
 
-const checkForTokenAndSave = token => {
-  if (token) {
-    sessionStorage.setItem("token", token)
-    console.log('token saved in session storage')
-  } else {
-    console.error('no token returned')
+  const checkForTokenAndSave = token => {
+    if (token) {
+      sessionStorage.setItem("token", token)
+      console.log('token saved in session storage')
+    } else {
+      console.error('no token returned')
+    }
   }
-}
 
   return (
     <div id='main'>
-      <Router>
 
-        <nav>
-          <Link to="/">home</Link>
-          <Link to="/user/signin">sign in</Link>
-          <Link to="/user/signup">sign up</Link>
-        </nav>
+      <nav>
+        <Link to="/">home</Link>
+        <Link to="/user/signin">sign in</Link>
+        <Link to="/user/signup">sign up</Link>
+      </nav>
 
-        <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='user/*' element={<Auth register={registerHandler}/> }></Route>
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='user/*' element={<Auth register={registerHandler} />}></Route>
+        <Route path='*' element={<NoMatch />}></Route>
+      </Routes>
+
     </div>
   )
 }

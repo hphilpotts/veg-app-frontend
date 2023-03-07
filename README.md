@@ -113,3 +113,8 @@ _I've realised that the above solution can be dispensed with and the entire func
 _Now I should be able to focus on storing a valid token and redirecting to the appropriate page!_       
 
 - `registerHandler` updated to now save tokens in Session Storage.      
+
+07/03/23:       
+- Ran into a series of issues getting redirects to work: the root cause of the issue was where I was trying to use `useNavigate` outside of the context of `<Router>` - new approach has been wrapping the `<App />` component within a Router in `index.js`, rather than putting the `<Router>` component inside the `<App>` component as before - [suggested by this article](https://bobbyhadz.com/blog/react-usenavigate-may-be-used-only-in-context-of-router).        
+- Eventually working as I can now use `useNavigate()` within my app component in order to redirect users upon sign up.      
+- `NoMatch` component added to `path='*'` to catch unmatched routes.        
