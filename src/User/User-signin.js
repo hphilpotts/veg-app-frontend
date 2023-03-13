@@ -14,7 +14,7 @@ const theme = createTheme();
 export default function SignIn(props) {
 
     const loginHandler = user => {
-        props.login(user)
+        props.authHandler("/auth/signin", user)
     }
 
     const handleSubmit = (event) => {
@@ -24,7 +24,6 @@ export default function SignIn(props) {
             emailAddress: data.get('email'),
             password: data.get('password'),
         }
-        console.log(user)
         loginHandler(user)
     };
 

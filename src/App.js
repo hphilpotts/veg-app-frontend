@@ -12,35 +12,17 @@ export default function App() {
 
   const navigate = useNavigate()
 
-  const registerHandler = async user => {
-    Axios.post("/auth/signup", user)
-      .then(response => {
-        checkForTokenAndSave(response.data.token)
-        if (response.data.token) {
-          navigate('/')
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      })
-  }
-
-  const loginHandler = async user => {
-    console.log('running login handler...')
-    console.log(user);
-    Axios.post("/auth/signin", user)
-      .then(response => {
-        console.log('post request sent, checking for token...');
-        console.log(response.data)
-        checkForTokenAndSave(response.data.token)
-        if (response.data.token) {
-          console.log('got token!');
-          navigate('/')
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      })
+  const authHandler = (route, user) => {
+    Axios.post(`${route}`, user)
+    .then(res => {
+      checkForTokenAndSave(res.data.token)
+      if (res.data.token) {
+        navigate('/')
+      }
+    })
+    .catch(err => {
+      console.error(err)
+    })
   }
 
   const checkForTokenAndSave = token => {
@@ -63,7 +45,7 @@ export default function App() {
 
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='user/*' element={<Auth register={registerHandler} login={loginHandler} />}></Route>
+        <Route path='user/*' element={<Auth authHandler={authHandler}/>}></Route>
         <Route path='*' element={<NoMatch />}></Route>
       </Routes>
 

@@ -14,7 +14,7 @@ const theme = createTheme();
 export default function SignUp(props) {
 
   const registerHandler = user => {
-    props.register(user)
+    props.authHandler("/auth/signup", user)
   }
 
   const handleSubmit = async (event) => {

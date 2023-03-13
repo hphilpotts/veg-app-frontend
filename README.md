@@ -130,5 +130,8 @@ _Now I should be able to focus on storing a valid token and redirecting to the a
 
 - New token saves successfully in session storage. Redirect works fine too!
 
+- I've refactored `loginHandler` and `registerHandler` into a single function, `authHandler`, tested working ok.    
+
+
+
 ## Issues to resolve:   
-- `registerHandler` and `loginHandler` could very easily be refactored...   
