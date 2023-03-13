@@ -120,7 +120,7 @@ _Now I should be able to focus on storing a valid token and redirecting to the a
 - `NoMatch` component added to `path='*'` to catch unmatched routes.        
 
 13/03/23:     
-- Working on Sign In: requests are firing but user is not being found:    
+Working on Sign In: requests are firing but user is not being found:    
 
 ![sign in error](./public/readme/signin-issue.png)
 
@@ -129,9 +129,11 @@ _Now I should be able to focus on storing a valid token and redirecting to the a
 ![sign in success](./public/readme/signin-success.png)    
 
 - New token saves successfully in session storage. Redirect works fine too!
-
 - I've refactored `loginHandler` and `registerHandler` into a single function, `authHandler`, tested working ok.    
 
+Now working on responsive navigation depending on login status:   
+
+- Firstly, I am going to retrieve username from the saved token within `sessionStorage` using `jwt-decode`, this is then saved as a state within `App.js` and will be used to check if a user is logged in, and for displaying a welcome message.   
 
 
 ## Issues to resolve:   

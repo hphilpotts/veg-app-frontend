@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import './App.css';
 
 import { Route, Routes, Link, useNavigate } from 'react-router-dom';
@@ -10,6 +11,8 @@ import NoMatch from './Err/No-match';
 
 export default function App() {
 
+  const [loggedInUser, setLoggedInUser] = useState()
+
   const navigate = useNavigate()
 
   const authHandler = (route, user) => {
@@ -17,6 +20,8 @@ export default function App() {
     .then(res => {
       checkForTokenAndSave(res.data.token)
       if (res.data.token) {
+        getLoggedInUser(sessionStorage.token)
+        console.log(loggedInUser);
         navigate('/')
       }
     })
@@ -31,6 +36,15 @@ export default function App() {
       console.log('token saved in session storage')
     } else {
       console.error('no token returned')
+    }
+  }
+
+  const getLoggedInUser = savedToken => {
+    if (!savedToken) {
+      console.error('no saved token found!');
+    } else {
+      const decoded = jwt_decode(savedToken)
+      setLoggedInUser(decoded.user.username)
     }
   }
 
