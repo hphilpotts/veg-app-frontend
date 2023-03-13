@@ -48,13 +48,28 @@ export default function App() {
     }
   }
 
+  const logoutHandler = (e) => {
+    e.preventDefault()
+    localStorage.removeItem("token")
+    setLoggedInUser(null)
+    console.log('Clearing session storage...')
+    sessionStorage.clear()
+  }
+
   return (
     <div id='main'>
 
       <nav>
         <Link to="/">home</Link>
-        <Link to="/user/signin">sign in</Link>
-        <Link to="/user/signup">sign up</Link>
+        {!loggedInUser ? (
+          <>
+            <Link to="/user/signin">sign in</Link>
+            <Link to="/user/signup">sign up</Link>
+          </>
+        ) : (
+          <Link onClick={logoutHandler} to='/user/signin'>logout</Link>
+        )}
+
       </nav>
 
       <Routes>
