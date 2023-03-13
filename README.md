@@ -139,4 +139,10 @@ Now working on responsive navigation depending on login status:
 - Greeting message added and placeholder User Profile page added.   
 - `getLoggedInUser` implemented within `useEffect` in `App.js` - this is to prevent App component from rendering nav bar as no logged in user upon manual refresh.    
 
+Tidying up Nav bar further:   
+- Refactored out nav bar into a component within `main/` along with Home component. Had some issues where logout functionality was not working - issue seemed to be with `e.preventDefault()` not working as expected. Resolved by passing `e` from function call within Nav component.   
+- Now implementing a *MUI* `<AppBar>` to quickly improve the appearance of the app bar and add a responsive 'drawer' on smaller screen.   
+
+
 ## Issues to resolve:   
+- Make the Nav bar a component?   

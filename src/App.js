@@ -3,11 +3,13 @@ import Axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import './App.css';
 
-import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
+import Nav from './Main/Nav';
+import NavTwoPointOh from './Main/NavTwoPointOh'
 import Auth from './User/Auth-main';
 import UserProfile from './User/User-profile';
-import Home from './Home';
+import Home from './Main/Home';
 import NoMatch from './Err/No-match';
 
 export default function App() {
@@ -26,7 +28,6 @@ export default function App() {
       checkForTokenAndSave(res.data.token)
       if (res.data.token) {
         getLoggedInUser(sessionStorage.token)
-        console.log(loggedInUser);
         navigate('/')
       }
     })
@@ -46,7 +47,7 @@ export default function App() {
 
   const getLoggedInUser = savedToken => {
     if (!savedToken) {
-      console.error('no saved token found!');
+      console.warn('no saved token found!');
     } else {
       const decoded = jwt_decode(savedToken)
       setLoggedInUser(decoded.user.username)
@@ -59,31 +60,22 @@ export default function App() {
     setLoggedInUser(null)
     console.log('Clearing session storage...')
     sessionStorage.clear()
+    if (!sessionStorage.token) {
+      console.log('...session storage is clear!');
+    } else {
+      console.err('...SESSION STORAGE IS NOT CLEAR');
+    }
   }
 
   return (
     <div id='main'>
 
-      <nav>
-        <Link to="/">home</Link>
-        {!loggedInUser ? (
-          <>
-            <Link to="/user/signin">sign in</Link>
-            <Link to="/user/signup">sign up</Link>
-          </>
-        ) : (
-          <>
-            <Link onClick={logoutHandler} to='/user/signin'>logout</Link>
-            <Link to="/profile">hello, {loggedInUser}</Link>
-          </>
-        )}
-
-      </nav>
+      <NavTwoPointOh loggedInUser={loggedInUser} logoutHandler={logoutHandler}/>
 
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='user/*' element={<Auth authHandler={authHandler}/>}></Route>
-        <Route path='/profile' element={<UserProfile />}></Route>
+        <Route path='/profile' element={<UserProfile user={loggedInUser}/>}></Route>
         <Route path='*' element={<NoMatch />}></Route>
       </Routes>
 
