@@ -144,5 +144,12 @@ Tidying up Nav bar further:
 - Now implementing a *MUI* `<AppBar>` to quickly improve the appearance of the app bar and add a responsive 'drawer' on smaller screen.   
 - Where `<Link>` is used instead of MUI's default `<Button>` or similar, the formatting looks out of place - this has been updated (_albeit slightly clumsily using CSS to override MUI's theme(s)_).      
 
+I'm now going to start mapping out the remaining key components:    
+- "Week" CRUD operations will be accessed via a `WeekDisplay` component.    
+  - Child Component: `CurrentWeek` added.
+
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   
+
+## Features to add:
+- Messages to be provided to user upon login, failed login, sign in, etc.     

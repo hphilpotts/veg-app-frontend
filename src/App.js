@@ -10,6 +10,9 @@ import Auth from './User/Auth-main';
 import UserProfile from './User/User-profile';
 import Home from './Main/Home';
 import NoMatch from './Err/No-match';
+import WeekDisplay from './Week/WeekDisplay';
+
+import Box from '@mui/material/Box';
 
 export default function App() {
 
@@ -23,16 +26,16 @@ export default function App() {
 
   const authHandler = (route, user) => {
     Axios.post(`${route}`, user)
-    .then(res => {
-      checkForTokenAndSave(res.data.token)
-      if (res.data.token) {
-        getLoggedInUser(sessionStorage.token)
-        navigate('/')
-      }
-    })
-    .catch(err => {
-      console.error(err)
-    })
+      .then(res => {
+        checkForTokenAndSave(res.data.token)
+        if (res.data.token) {
+          getLoggedInUser(sessionStorage.token)
+          navigate('/')
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   const checkForTokenAndSave = token => {
@@ -68,15 +71,19 @@ export default function App() {
 
   return (
     <div id='main'>
+      <Box>
+        <Nav loggedInUser={loggedInUser} logoutHandler={logoutHandler} />
+      </Box>
+      <Box>
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='user/*' element={<Auth authHandler={authHandler} />}></Route>
+          <Route path='/profile' element={<UserProfile user={loggedInUser} />}></Route>
+          <Route path='week/*' element={<WeekDisplay/>}></Route>
+          <Route path='*' element={<NoMatch />}></Route>
+        </Routes>
 
-      <Nav loggedInUser={loggedInUser} logoutHandler={logoutHandler}/>
-
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='user/*' element={<Auth authHandler={authHandler}/>}></Route>
-        <Route path='/profile' element={<UserProfile user={loggedInUser}/>}></Route>
-        <Route path='*' element={<NoMatch />}></Route>
-      </Routes>
+      </Box>
 
     </div>
   )

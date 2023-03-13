@@ -39,7 +39,7 @@ export default function Nav(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        VegApp
       </Typography>
       <Divider />
       <List>
@@ -72,7 +72,7 @@ export default function Nav(props) {
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
                 <Link to="/profile" className='link-text'>
-                  <ListItemText primary={`Hello, ${loggedInUser}`} />
+                  <ListItemText primary={`${loggedInUser} - Profile`} />
                 </Link>
               </ListItemButton>
             </ListItem>
@@ -121,8 +121,9 @@ export default function Nav(props) {
               </>
             ) : (
               <>
-                <Link onClick={logoutHandler} to='/user/signin' className='nav-text'>Log Out</Link>
                 <Link to="/profile" className='nav-text'>Hello, {loggedInUser}</Link>
+                <Link to="/week/currentWeek" className='nav-text'>Current Week</Link>
+                <Link onClick={logoutHandler} to='/user/signin' className='nav-text'>Log Out</Link>
               </>
             )}
           </Box>
