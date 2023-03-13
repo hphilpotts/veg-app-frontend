@@ -145,11 +145,11 @@ Tidying up Nav bar further:
 - Where `<Link>` is used instead of MUI's default `<Button>` or similar, the formatting looks out of place - this has been updated (_albeit slightly clumsily using CSS to override MUI's theme(s)_).      
 
 I'm now going to start mapping out the remaining key components:    
-- "Week" CRUD operations will be accessed via a `WeekDisplay` component.    
-  - Child Component: `CurrentWeek` added.
+- "Week" CRUD operations will be accessed via a `WeekDisplay` component. Child Components: `CurrentWeek`, `WeekIndex` added.     
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   
+
 
 ## Features to add:
 - Messages to be provided to user upon login, failed login, sign in, etc.     

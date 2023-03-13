@@ -78,6 +78,20 @@ export default function Nav(props) {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
+                <Link to="/week/currentWeek" className='link-text'>
+                  <ListItemText primary={'Current Week'} />
+                </Link>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <Link to="/week/index" className='link-text'>
+                  <ListItemText primary={"All Weeks"} />
+                </Link>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }}>
                 <Link onClick={logoutHandler} to="/signin" className='link-text'>
                   <ListItemText primary={"Log Out"} />
                 </Link>
@@ -123,6 +137,7 @@ export default function Nav(props) {
               <>
                 <Link to="/profile" className='nav-text'>Hello, {loggedInUser}</Link>
                 <Link to="/week/currentWeek" className='nav-text'>Current Week</Link>
+                <Link to="/week/index" className='nav-text'>All Weeks</Link>
                 <Link onClick={logoutHandler} to='/user/signin' className='nav-text'>Log Out</Link>
               </>
             )}
