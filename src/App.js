@@ -6,7 +6,6 @@ import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import Nav from './Main/Nav';
-import NavTwoPointOh from './Main/NavTwoPointOh'
 import Auth from './User/Auth-main';
 import UserProfile from './User/User-profile';
 import Home from './Main/Home';
@@ -70,7 +69,7 @@ export default function App() {
   return (
     <div id='main'>
 
-      <NavTwoPointOh loggedInUser={loggedInUser} logoutHandler={logoutHandler}/>
+      <Nav loggedInUser={loggedInUser} logoutHandler={logoutHandler}/>
 
       <Routes>
         <Route path='/' element={<Home />}></Route>
