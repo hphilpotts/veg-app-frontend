@@ -17,3 +17,7 @@
 .spacer {
     margin-top: 10%;
 }
+
+.auth-button {
+    background-color: #CF1B1B !important;
+}

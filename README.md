@@ -142,7 +142,7 @@ Now working on responsive navigation depending on login status:
 Tidying up Nav bar further:   
 - Refactored out nav bar into a component within `main/` along with Home component. Had some issues where logout functionality was not working - issue seemed to be with `e.preventDefault()` not working as expected. Resolved by passing `e` from function call within Nav component.   
 - Now implementing a *MUI* `<AppBar>` to quickly improve the appearance of the app bar and add a responsive 'drawer' on smaller screen.   
-
+- Where `<Link>` is used instead of MUI's default `<Button>` or similar, the formatting looks out of place - this has been updated (_albeit slightly clumsily using CSS to override MUI's theme(s)_).      
 
 ## Issues to resolve:   
-- Make the Nav bar a component?   
+- MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   

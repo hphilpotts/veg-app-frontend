@@ -12,7 +12,11 @@ export default function UserProfile(props) {
     <>
     <Box className='auth-container'>
       <Paper elevation={3} className='auth-paper'>
-        <h1>THIS IS THE PROFILE FOR {user.toUpperCase()}</h1>
+        {user ? (
+          <h1>THIS IS THE PROFILE FOR {user.toUpperCase()}</h1>
+        ) : (
+          <h1>NO USER LOGGED IN, YOU SHOULDN'T BE HERE</h1>
+        )}
       </Paper>
     </Box>
   </>

@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import './User.css'
+
 const theme = createTheme();
 
 export default function SignUp(props) {
@@ -91,6 +93,7 @@ export default function SignUp(props) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              className='auth-button'
             >
               Sign Up
             </Button>

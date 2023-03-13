@@ -16,6 +16,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import './main.css'
+
 const drawerWidth = 240;
 
 export default function Nav(props) {
@@ -43,7 +45,7 @@ export default function Nav(props) {
       <List>
         <ListItem disablePadding>
           <ListItemButton sx={{ textAlign: 'center' }}>
-            <Link to="/">
+            <Link to="/" className='link-text'>
               <ListItemText primary={"Home"} />
             </Link>
           </ListItemButton>
@@ -52,14 +54,14 @@ export default function Nav(props) {
           <>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
-                <Link to="/user/signin">
+                <Link to="/user/signin" className='link-text'>
                   <ListItemText primary={"Sign In"} />
                 </Link>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
-                <Link to="/user/signin">
+                <Link to="/user/signup" className='link-text'>
                   <ListItemText primary={"Sign Up"} />
                 </Link>
               </ListItemButton>
@@ -69,14 +71,14 @@ export default function Nav(props) {
           <>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
-                <Link to="/profile">
+                <Link to="/profile" className='link-text'>
                   <ListItemText primary={`Hello, ${loggedInUser}`} />
                 </Link>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
-                <Link onClick={logoutHandler} to="/signin">
+                <Link onClick={logoutHandler} to="/signin" className='link-text'>
                   <ListItemText primary={"Log Out"} />
                 </Link>
               </ListItemButton>
@@ -92,7 +94,7 @@ export default function Nav(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" className='nav-bar-body'>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -111,16 +113,16 @@ export default function Nav(props) {
             VegApp
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Link to="/">home</Link>
+            <Link to="/" className='nav-text'>Home</Link>
             {!loggedInUser ? (
               <>
-                <Link to="/user/signin">sign in</Link>
-                <Link to="/user/signup">sign up</Link>
+                <Link to="/user/signin" className='nav-text'>Sign In</Link>
+                <Link to="/user/signup" className='nav-text'>Sign Up</Link>
               </>
             ) : (
               <>
-                <Link onClick={logoutHandler} to='/user/signin'>logout</Link>
-                <Link to="/profile">hello, {loggedInUser}</Link>
+                <Link onClick={logoutHandler} to='/user/signin' className='nav-text'>Log Out</Link>
+                <Link to="/profile" className='nav-text'>Hello, {loggedInUser}</Link>
               </>
             )}
           </Box>
