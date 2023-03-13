@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import './App.css';
@@ -6,12 +6,17 @@ import './App.css';
 import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 
 import Auth from './User/Auth-main';
+import UserProfile from './User/User-profile';
 import Home from './Home';
 import NoMatch from './Err/No-match';
 
 export default function App() {
 
   const [loggedInUser, setLoggedInUser] = useState()
+
+  useEffect(() => {
+    getLoggedInUser(sessionStorage.token)
+  }, [])
 
   const navigate = useNavigate()
 
@@ -67,7 +72,10 @@ export default function App() {
             <Link to="/user/signup">sign up</Link>
           </>
         ) : (
-          <Link onClick={logoutHandler} to='/user/signin'>logout</Link>
+          <>
+            <Link onClick={logoutHandler} to='/user/signin'>logout</Link>
+            <Link to="/profile">hello, {loggedInUser}</Link>
+          </>
         )}
 
       </nav>
@@ -75,6 +83,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='user/*' element={<Auth authHandler={authHandler}/>}></Route>
+        <Route path='/profile' element={<UserProfile />}></Route>
         <Route path='*' element={<NoMatch />}></Route>
       </Routes>
 

@@ -136,5 +136,7 @@ Now working on responsive navigation depending on login status:
 - Firstly, I am going to retrieve username from the saved token within `sessionStorage` using `jwt-decode`, this is then saved as a state within `App.js` and will be used to check if a user is logged in, and for displaying a welcome message.   
 - Logout functionality added which clears `sessionStorage` and sets the `loggedInUser` state in `App.js` to `null`.   
 - Nav bar renders conditionally depending on if user is logged in or not.   
+- Greeting message added and placeholder User Profile page added.   
+- `getLoggedInUser` implemented within `useEffect` in `App.js` - this is to prevent App component from rendering nav bar as no logged in user upon manual refresh.    
 
 ## Issues to resolve:   
