@@ -25,6 +25,24 @@ export default function App() {
       })
   }
 
+  const loginHandler = async user => {
+    console.log('running login handler...')
+    console.log(user);
+    Axios.post("/auth/signin", user)
+      .then(response => {
+        console.log('post request sent, checking for token...');
+        console.log(response.data)
+        checkForTokenAndSave(response.data.token)
+        if (response.data.token) {
+          console.log('got token!');
+          navigate('/')
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }
+
   const checkForTokenAndSave = token => {
     if (token) {
       sessionStorage.setItem("token", token)
@@ -45,7 +63,7 @@ export default function App() {
 
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='user/*' element={<Auth register={registerHandler} />}></Route>
+        <Route path='user/*' element={<Auth register={registerHandler} login={loginHandler} />}></Route>
         <Route path='*' element={<NoMatch />}></Route>
       </Routes>
 

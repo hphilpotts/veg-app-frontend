@@ -118,3 +118,17 @@ _Now I should be able to focus on storing a valid token and redirecting to the a
 - Ran into a series of issues getting redirects to work: the root cause of the issue was where I was trying to use `useNavigate` outside of the context of `<Router>` - new approach has been wrapping the `<App />` component within a Router in `index.js`, rather than putting the `<Router>` component inside the `<App>` component as before - [suggested by this article](https://bobbyhadz.com/blog/react-usenavigate-may-be-used-only-in-context-of-router).        
 - Eventually working as I can now use `useNavigate()` within my app component in order to redirect users upon sign up.      
 - `NoMatch` component added to `path='*'` to catch unmatched routes.        
+
+13/03/23:     
+- Working on Sign In: requests are firing but user is not being found:    
+
+![sign in error](./public/readme/signin-issue.png)
+
+- However after a quick check of my own backend API documentation (_which I am grateful to past me for writing for the benefit of current me_) I realised I was using `email` as a key rather than `emailAddress`...which now works:    
+
+![sign in success](./public/readme/signin-success.png)    
+
+- New token saves successfully in session storage. Redirect works fine too!
+
+## Issues to resolve:   
+- `registerHandler` and `loginHandler` could very easily be refactored...   
