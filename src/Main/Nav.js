@@ -24,7 +24,8 @@ export default function Nav(props) {
 
   const { window } = props;
 
-  const loggedInUser = props.loggedInUser
+  const isLoggedIn = props.currentUser.loggedIn
+  const username = props.currentUser.username
 
   const logoutHandler = e => {
     props.logoutHandler(e)
@@ -50,7 +51,7 @@ export default function Nav(props) {
             </Link>
           </ListItemButton>
         </ListItem>
-        {!loggedInUser ? (
+        {!isLoggedIn ? (
           <>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
@@ -72,7 +73,7 @@ export default function Nav(props) {
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
                 <Link to="/profile" className='link-text'>
-                  <ListItemText primary={`${loggedInUser} - Profile`} />
+                  <ListItemText primary={`${username} - Profile`} />
                 </Link>
               </ListItemButton>
             </ListItem>
@@ -128,14 +129,14 @@ export default function Nav(props) {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Link to="/" className='nav-text'>Home</Link>
-            {!loggedInUser ? (
+            {!isLoggedIn ? (
               <>
                 <Link to="/user/signin" className='nav-text'>Sign In</Link>
                 <Link to="/user/signup" className='nav-text'>Sign Up</Link>
               </>
             ) : (
               <>
-                <Link to="/profile" className='nav-text'>Hello, {loggedInUser}</Link>
+                <Link to="/profile" className='nav-text'>Hello, {username}</Link>
                 <Link to="/week/currentWeek" className='nav-text'>Current Week</Link>
                 <Link to="/week/index" className='nav-text'>All Weeks</Link>
                 <Link onClick={logoutHandler} to='/user/signin' className='nav-text'>Log Out</Link>

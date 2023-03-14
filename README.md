@@ -147,9 +147,49 @@ Tidying up Nav bar further:
 I'm now going to start mapping out the remaining key components:    
 - "Week" CRUD operations will be accessed via a `WeekDisplay` component. Child Components: `CurrentWeek`, `WeekIndex` added.     
 - I'm going to attempt to GET current week upon login, if no current week is found then one will be created. Initial attempts have resulted in overcomplicated auth functionality - in particular, `getLoggedInUser` within `useState` no longer triggers a 'logged in' state upon manual refresh.   
-- Auth functionality now refactored significantly: functions renamed as well as restructured, 'User' related state changed from username string to an object, 'get', 'set' and 'check' functions abstracted out into `updateStateFromToken`, `try...catch` statements used in cases where `if...else` previously used for error handling.   
+- Auth functionality now refactored significantly: functions renamed as well as restructured, 'User' related state changed from username string to an object, 'get', 'set' and 'check' functions abstracted out into `updateStateFromToken`, `try...catch` statements used in cases where `if...else` previously used for error handling. For example:    
 
+```
+  const authHandler = (route, user) => {
+    Axios.post(`${route}`, user)
+      .then(res => {
 
+        checkForTokenAndSave(res.data.token)
+
+        if (res.data.token) {
+          const user = getLoggedInUser(sessionStorage.token)
+          setLoggedInUser(user.username)
+          setLoggedInUserId(user.id)
+          checkForCurrentWeek(user)
+          navigate('/')
+        }
+
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+```
+
+...is now:      
+
+```
+  const authHandler = (route, user) => {
+    Axios.post(`${route}`, user)
+      .then(res => {
+        saveTokenToStorage(res.data.token)
+        updateStateFromToken(sessionStorage.token)
+        navigate('/')
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+```
+
+_I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` within `useEffect` as per [this stack thread](https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook) - not sure if this is a bodge though..._   
+
+- `Nav.js` updated to take `currentUser` object as prop, which is then split into `isLoggedIn` and `username` to more clearly differentiate where and how this prop is being used.    
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   

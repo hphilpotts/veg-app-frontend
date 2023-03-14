@@ -94,7 +94,7 @@ export default function App() {
   return (
     <div id='main'>
       <Box>
-        <Nav loggedInUser={currentUser.username} logoutHandler={logoutHandler} />
+        <Nav currentUser={currentUser} logoutHandler={logoutHandler} />
       </Box>
       <Box>
         <Routes>
