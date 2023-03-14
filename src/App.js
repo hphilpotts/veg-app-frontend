@@ -30,6 +30,7 @@ export default function App() {
       updateStateFromToken(sessionStorage.token)
     } catch {
       sessionStorage.token ? console.error('Invalid token in Session Storage') : console.warn('No token found in session storage');
+      sessionStorage.clear()
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -70,6 +71,7 @@ export default function App() {
       return decoded.user
     } catch (err) {
       console.warn(err.message)
+      sessionStorage.clear()
       return null
     }
   }
@@ -100,7 +102,7 @@ export default function App() {
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='user/*' element={<Auth authHandler={authHandler} />}></Route>
-          <Route path='/profile' element={<UserProfile user={currentUser.username} />}></Route>
+          <Route path='/profile' element={<UserProfile currentUser={currentUser} />}></Route>
           <Route path='week/*' element={<WeekDisplay/>}></Route>
           <Route path='*' element={<NoMatch />}></Route>
         </Routes>
