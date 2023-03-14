@@ -16,11 +16,16 @@ import Box from '@mui/material/Box';
 
 export default function App() {
 
-  const [loggedInUser, setLoggedInUser] = useState()
-  const [loggedInUserId, setLoggedInUserId] = useState()
+  const nullUser = {
+    loggedIn: false,
+    username: null,
+    id: null
+  }
+
+  const [currentUser, setCurrentUser] = useState(nullUser)
 
   useEffect(() => {
-    getLoggedInUser(sessionStorage.token)
+    console.log('check for user would go here');
   }, [])
 
   const navigate = useNavigate()
@@ -29,15 +34,18 @@ export default function App() {
     Axios.post(`${route}`, user)
       .then(res => {
 
-        checkForTokenAndSave(res.data.token)
+        saveTokenToStorage(res.data.token)
 
-        if (res.data.token) {
-          const user = getLoggedInUser(sessionStorage.token)
-          setLoggedInUser(user.username)
-          setLoggedInUserId(user.id)
-          checkForCurrentWeek(user)
-          navigate('/')
-        }
+        const nextUser = getUserFromToken(sessionStorage.token)
+        setCurrentUser({
+          loggedIn: true,
+          username: nextUser.username,
+          id: nextUser.id
+        })
+
+        checkForCurrentWeek(nextUser)
+
+        navigate('/')
 
       })
       .catch(err => {
@@ -45,22 +53,22 @@ export default function App() {
       })
   }
 
-  const checkForTokenAndSave = token => {
-    if (token) {
+  const saveTokenToStorage = token => {
+    try {
       sessionStorage.setItem("token", token)
-      console.log('token saved in session storage')
-    } else {
-      console.error('no token returned')
+      console.log('token saved successfully')
+    } catch (err) {
+      console.error(err)
     }
   }
 
-  const getLoggedInUser = savedToken => {
-    if (!savedToken) {
-      console.warn('no saved token found!');
-      return null;
-    } else {
+  const getUserFromToken = savedToken => {
+    try {
       const decoded = jwt_decode(savedToken)
       return decoded.user
+    } catch (err) {
+      console.error(err)
+      return null
     }
   }
 
@@ -71,7 +79,7 @@ export default function App() {
   const logoutHandler = (e) => {
     e.preventDefault()
     localStorage.removeItem("token")
-    setLoggedInUser(null)
+    setCurrentUser(nullUser)
     console.log('Clearing session storage...')
     sessionStorage.clear()
     if (!sessionStorage.token) {
@@ -84,13 +92,13 @@ export default function App() {
   return (
     <div id='main'>
       <Box>
-        <Nav loggedInUser={loggedInUser} logoutHandler={logoutHandler} />
+        <Nav loggedInUser={currentUser.username} logoutHandler={logoutHandler} />
       </Box>
       <Box>
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='user/*' element={<Auth authHandler={authHandler} />}></Route>
-          <Route path='/profile' element={<UserProfile user={loggedInUser} />}></Route>
+          <Route path='/profile' element={<UserProfile user={currentUser.username} />}></Route>
           <Route path='week/*' element={<WeekDisplay/>}></Route>
           <Route path='*' element={<NoMatch />}></Route>
         </Routes>
