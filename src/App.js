@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import './App.css';
-
 import { Route, Routes, useNavigate } from 'react-router-dom';
+
+import Box from '@mui/material/Box';
+import './App.css';
 
 import Nav from './Main/Nav';
 import Auth from './User/Auth-main';
@@ -12,9 +13,9 @@ import Home from './Main/Home';
 import NoMatch from './Err/No-match';
 import WeekDisplay from './Week/WeekDisplay';
 
-import Box from '@mui/material/Box';
-
 export default function App() {
+
+  const navigate = useNavigate()
 
   const nullUser = {
     loggedIn: false,
@@ -25,28 +26,19 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(nullUser)
 
   useEffect(() => {
-    console.log('check for user would go here');
+    try {
+      updateStateFromToken(sessionStorage.token)
+    } catch {
+      sessionStorage.token ? console.error('Invalid token in Session Storage') : console.warn('No token found in session storage');
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const navigate = useNavigate()
 
   const authHandler = (route, user) => {
     Axios.post(`${route}`, user)
       .then(res => {
-
         saveTokenToStorage(res.data.token)
-
-        const nextUser = getUserFromToken(sessionStorage.token)
-        setCurrentUser({
-          loggedIn: true,
-          username: nextUser.username,
-          id: nextUser.id
-        })
-
-        checkForCurrentWeek(nextUser)
-
+        updateStateFromToken(sessionStorage.token)
         navigate('/')
-
       })
       .catch(err => {
         console.error(err)
@@ -62,12 +54,22 @@ export default function App() {
     }
   }
 
+  const updateStateFromToken = token => {
+    const nextUser = getUserFromToken(token)
+    setCurrentUser({
+      loggedIn: true,
+      username: nextUser.username,
+      id: nextUser.id
+    })
+    checkForCurrentWeek(nextUser)
+  }
+
   const getUserFromToken = savedToken => {
     try {
       const decoded = jwt_decode(savedToken)
       return decoded.user
     } catch (err) {
-      console.error(err)
+      console.warn(err.message)
       return null
     }
   }
@@ -85,7 +87,7 @@ export default function App() {
     if (!sessionStorage.token) {
       console.log('...session storage is clear!');
     } else {
-      console.err('...SESSION STORAGE IS NOT CLEAR');
+      console.err('...session storage has not been cleared');
     }
   }
 
