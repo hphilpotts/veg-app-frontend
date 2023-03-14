@@ -17,6 +17,7 @@ import Box from '@mui/material/Box';
 export default function App() {
 
   const [loggedInUser, setLoggedInUser] = useState()
+  const [loggedInUserId, setLoggedInUserId] = useState()
 
   useEffect(() => {
     getLoggedInUser(sessionStorage.token)
@@ -27,11 +28,17 @@ export default function App() {
   const authHandler = (route, user) => {
     Axios.post(`${route}`, user)
       .then(res => {
+
         checkForTokenAndSave(res.data.token)
+
         if (res.data.token) {
-          getLoggedInUser(sessionStorage.token)
+          const user = getLoggedInUser(sessionStorage.token)
+          setLoggedInUser(user.username)
+          setLoggedInUserId(user.id)
+          checkForCurrentWeek(user)
           navigate('/')
         }
+
       })
       .catch(err => {
         console.error(err)
@@ -50,10 +57,15 @@ export default function App() {
   const getLoggedInUser = savedToken => {
     if (!savedToken) {
       console.warn('no saved token found!');
+      return null;
     } else {
       const decoded = jwt_decode(savedToken)
-      setLoggedInUser(decoded.user.username)
+      return decoded.user
     }
+  }
+
+  const checkForCurrentWeek = user => {
+    console.log(`checking if there is a current week for user: ${user.username}, id: ${user.id}`);
   }
 
   const logoutHandler = (e) => {

@@ -146,10 +146,12 @@ Tidying up Nav bar further:
 
 I'm now going to start mapping out the remaining key components:    
 - "Week" CRUD operations will be accessed via a `WeekDisplay` component. Child Components: `CurrentWeek`, `WeekIndex` added.     
+- I'm going to attempt to GET current week upon login, if no current week is found then one will be created. Initial attempts have resulted in overcomplicated auth functionality - in particular, `getLoggedInUser` within `useState` no longer triggers a 'logged in' state upon manual refresh. I'm now going to refactor this.    
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   
-
+- App.js auth functions need refactoring: currently `getLoggedInUser` no longer works.    
+- CSS requires refactoring.   
 
 ## Features to add:
 - Messages to be provided to user upon login, failed login, sign in, etc.     
