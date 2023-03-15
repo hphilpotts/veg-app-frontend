@@ -6,6 +6,11 @@
   background-size: cover;
 }
 
+#main-transparent {
+  background: rgba(201, 241, 188, 0.852);
+}
+
+
 #home {
   height: 100vh;
 }

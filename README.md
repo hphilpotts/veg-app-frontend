@@ -190,6 +190,8 @@ I'm now going to start mapping out the remaining key components:
 _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` within `useEffect` as per [this stack thread](https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook) - not sure if this is a bodge though..._   
 
 - `Nav.js` updated to take `currentUser` object as prop, which is then split into `isLoggedIn` and `username` to more clearly differentiate where and how this prop is being used.    
+- Ditto `UserProfile`, which now also redirects to Sign In if no user prop is found on render.   
+
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   

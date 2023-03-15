@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Paper, Button } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import './User.css'
 
 export default function UserProfile(props) {

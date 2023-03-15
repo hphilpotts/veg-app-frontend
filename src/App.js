@@ -95,20 +95,23 @@ export default function App() {
 
   return (
     <div id='main'>
-      <Box>
-        <Nav currentUser={currentUser} logoutHandler={logoutHandler} />
-      </Box>
-      <Box>
-        <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='user/*' element={<Auth authHandler={authHandler} />}></Route>
-          <Route path='/profile' element={<UserProfile currentUser={currentUser} />}></Route>
-          <Route path='week/*' element={<WeekDisplay/>}></Route>
-          <Route path='*' element={<NoMatch />}></Route>
-        </Routes>
+      <div id='main-transparent'>
+        <div id='main-opaque'>
+          <Box>
+            <Nav currentUser={currentUser} logoutHandler={logoutHandler} />
+          </Box>
+          <Box>
+            <Routes>
+              <Route path='/' element={<Home />}></Route>
+              <Route path='user/*' element={<Auth authHandler={authHandler} />}></Route>
+              <Route path='/profile' element={<UserProfile currentUser={currentUser} />}></Route>
+              <Route path='week/*' element={<WeekDisplay />}></Route>
+              <Route path='*' element={<NoMatch />}></Route>
+            </Routes>
 
-      </Box>
-
+          </Box>
+        </div>
+      </div>
     </div>
   )
 }
