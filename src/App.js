@@ -25,12 +25,17 @@ export default function App() {
 
   const [currentUser, setCurrentUser] = useState(nullUser)
 
+  const [currentWeek, setCurrentWeek] = useState({
+    isFound: false,
+    userOwner: null,
+  })
+
   useEffect(() => {
     try {
       updateStateFromToken(sessionStorage.token)
     } catch {
       sessionStorage.token ? console.error('Invalid token in Session Storage') : console.warn('No token found in session storage');
-      sessionStorage.clear()
+      // sessionStorage.clear()
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -62,7 +67,7 @@ export default function App() {
       username: nextUser.username,
       id: nextUser.id
     })
-    checkForCurrentWeek(nextUser)
+    checkForCurrentWeek(nextUser.id)
   }
 
   const getUserFromToken = savedToken => {
@@ -71,13 +76,45 @@ export default function App() {
       return decoded.user
     } catch (err) {
       console.warn(err.message)
-      sessionStorage.clear()
       return null
     }
   }
 
-  const checkForCurrentWeek = user => {
-    console.log(`checking if there is a current week for user: ${user.username}, id: ${user.id}`);
+  const checkForCurrentWeek = userOwnerId => {
+    if (currentWeek.isFound) {
+      console.log('current week state found');
+      return true
+
+
+    } else {
+
+      console.log(userOwnerId)
+
+      Axios({
+        url: '/week/current',
+        headers: {
+          'x-auth-token': sessionStorage.token
+        }, 
+        data: {
+          "userOwner": userOwnerId
+        }
+      })
+      // Axios.get('/week/current', {headers: {'x-auth-token': sessionStorage.token}}, userOwner)
+        .then(res => {
+          console.log('week found on db')
+          console.log(res.data);
+          // setCurrentWeek({
+          //   isFound: true,
+          //   userOwner: userOwnerId
+          // })
+          return true
+        })
+        .catch(err => {
+          console.warn('no week found');
+          console.warn(err);
+          return false
+        })
+    }
   }
 
   const logoutHandler = (e) => {

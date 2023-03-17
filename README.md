@@ -144,6 +144,8 @@ Tidying up Nav bar further:
 - Now implementing a *MUI* `<AppBar>` to quickly improve the appearance of the app bar and add a responsive 'drawer' on smaller screen.   
 - Where `<Link>` is used instead of MUI's default `<Button>` or similar, the formatting looks out of place - this has been updated (_albeit slightly clumsily using CSS to override MUI's theme(s)_).      
 
+14/03/23:   
+
 I'm now going to start mapping out the remaining key components:    
 - "Week" CRUD operations will be accessed via a `WeekDisplay` component. Child Components: `CurrentWeek`, `WeekIndex` added.     
 - I'm going to attempt to GET current week upon login, if no current week is found then one will be created. Initial attempts have resulted in overcomplicated auth functionality - in particular, `getLoggedInUser` within `useState` no longer triggers a 'logged in' state upon manual refresh.   
@@ -192,10 +194,29 @@ _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` wit
 - `Nav.js` updated to take `currentUser` object as prop, which is then split into `isLoggedIn` and `username` to more clearly differentiate where and how this prop is being used.    
 - Ditto `UserProfile`, which now also redirects to Sign In if no user prop is found on render.   
 
+15/03/23:   
+- Attempting to GET CURRENT WEEK upon login, however I am seeing issues with Axios calls: specifically to do with the `x-auth-header` which should contain a valid token.   
+
+17/03/23:   
+- Looking at this with fresh eyes I've seen two problems:   
+  - Firstly, I was passing the whole `currentUser` state as an object into the Axios request body, when it only takes an `id`.    
+  - Secondly, my backend authorisation middleware is returning a 403 error from my frontend Axios requests: the `req.user.id` decoded from the token sent in headers is not matching the `userOwner` id sent in the request body. _Interestingly, I do not get this error when sending the same request from Postman_ - my initial guess would be that there is a problem with the Axios `x-auth-token` header being sent. I've added `.log()`s to my backend to see what comes through on each:    
+
+  _Postman:_    
+
+  ![console logs from Postman request](./public/readme/auth-postman-req.png)    
+
+  _Axios:_    
+
+  ![console logs from Axios request](./public/readme/auth-axios-req.png)    
+
+
+  - Further logging shows that the Axios `req.body` is empty: hence the `undefined` coming through in the backend.    
+  - Aaaand [I think I might have found out why](https://stackoverflow.com/questions/46404051/send-object-with-axios-get-request) - looks like I need to either a) try using `fetch()` instead or b) redesign my GET requests so that they use query params instead. Lesson learned...!    
+
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   
-- App.js auth functions need refactoring: currently `getLoggedInUser` no longer works.    
 - CSS requires refactoring.   
 
 ## Features to add:
