@@ -85,12 +85,11 @@ export default function App() {
       console.log('current week state found');
       return true
 
-
     } else {
-
+      // TODO : refactor this through abstraction
       console.log(userOwnerId)
-
       Axios({
+        method: 'put',
         url: '/week/current',
         headers: {
           'x-auth-token': sessionStorage.token
@@ -99,14 +98,13 @@ export default function App() {
           "userOwner": userOwnerId
         }
       })
-      // Axios.get('/week/current', {headers: {'x-auth-token': sessionStorage.token}}, userOwner)
         .then(res => {
           console.log('week found on db')
           console.log(res.data);
-          // setCurrentWeek({
-          //   isFound: true,
-          //   userOwner: userOwnerId
-          // })
+          setCurrentWeek({
+            isFound: true,
+            userOwner: userOwnerId
+          })
           return true
         })
         .catch(err => {

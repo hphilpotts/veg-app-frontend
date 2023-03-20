@@ -214,6 +214,10 @@ _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` wit
   - Further logging shows that the Axios `req.body` is empty: hence the `undefined` coming through in the backend.    
   - Aaaand [I think I might have found out why](https://stackoverflow.com/questions/46404051/send-object-with-axios-get-request) - looks like I need to either a) try using `fetch()` instead or b) redesign my GET requests so that they use query params instead. Lesson learned...!    
 
+20/03/23:   
+- Upon further digging I found that the `window.fetch()` approach considered above would not work either: as such I went back and updated my backend API to use PUT requests where a `request.body` is required for document selection.   
+- Frontend updated to use a `put` method which finally works! Needs refactoring and cleaning up but a major learn for me and a substantial blocker overcome.    
+
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   
