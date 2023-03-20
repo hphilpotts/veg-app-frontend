@@ -17,25 +17,17 @@ export default function App() {
 
   const navigate = useNavigate()
 
-  const nullUser = {
-    loggedIn: false,
-    username: null,
-    id: null
-  }
-
+  const nullUser = { loggedIn: false, username: null, id: null }
   const [currentUser, setCurrentUser] = useState(nullUser)
 
-  const [currentWeek, setCurrentWeek] = useState({
-    isFound: false,
-    userOwner: null,
-  })
+  const nullWeek = { isFound: false, userOwner: null }
+  const [currentWeek, setCurrentWeek] = useState(nullWeek)
 
   useEffect(() => {
     try {
       updateStateFromToken(sessionStorage.token)
     } catch {
       sessionStorage.token ? console.error('Invalid token in Session Storage') : console.warn('No token found in session storage');
-      // sessionStorage.clear()
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -84,27 +76,10 @@ export default function App() {
     if (currentWeek.isFound) {
       console.log('current week state found');
       return true
-
     } else {
-      // TODO : refactor this through abstraction
-      console.log(userOwnerId)
-      Axios({
-        method: 'put',
-        url: '/week/current',
-        headers: {
-          'x-auth-token': sessionStorage.token
-        }, 
-        data: {
-          "userOwner": userOwnerId
-        }
-      })
-        .then(res => {
-          console.log('week found on db')
-          console.log(res.data);
-          setCurrentWeek({
-            isFound: true,
-            userOwner: userOwnerId
-          })
+      userOwnerAxiosPut(userOwnerId)
+        .then(req => {
+          setCurrentWeek({ isFound: true, userOwner: userOwnerId })
           return true
         })
         .catch(err => {
@@ -115,10 +90,20 @@ export default function App() {
     }
   }
 
+  const userOwnerAxiosPut = async userOwnerId => {
+    Axios({
+      method: 'put',
+      url: '/week/current',
+      headers: { 'x-auth-token': sessionStorage.token },
+      data: { "userOwner": userOwnerId }
+    })
+  }
+
   const logoutHandler = (e) => {
     e.preventDefault()
     localStorage.removeItem("token")
     setCurrentUser(nullUser)
+    setCurrentWeek(nullWeek)
     console.log('Clearing session storage...')
     sessionStorage.clear()
     if (!sessionStorage.token) {

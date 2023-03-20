@@ -218,6 +218,10 @@ _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` wit
 - Upon further digging I found that the `window.fetch()` approach considered above would not work either: as such I went back and updated my backend API to use PUT requests where a `request.body` is required for document selection.   
 - Frontend updated to use a `put` method which finally works! Needs refactoring and cleaning up but a major learn for me and a substantial blocker overcome.    
 
+- `logoutHandler` updated to also clear `currentWeek` state using `nullWeek` object.    
+
+- `checkForCurrentWeek` refactored, this included refactoring out the Axios PUT request w/ a userOwner body: this can now be reused elsewhere. _Had to use async to allow for a `.then().catch()`.    
+
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   
