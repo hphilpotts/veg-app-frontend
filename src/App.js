@@ -27,7 +27,7 @@ export default function App() {
     try {
       updateStateFromToken(sessionStorage.token)
     } catch {
-      sessionStorage.token ? console.error('Invalid token in Session Storage') : console.warn('No token found in session storage');
+      sessionStorage.token ? console.err('Invalid token in Session Storage') : console.log('No token found in session storage');
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -46,7 +46,6 @@ export default function App() {
   const saveTokenToStorage = token => {
     try {
       sessionStorage.setItem("token", token)
-      console.log('token saved successfully')
     } catch (err) {
       console.error(err)
     }
@@ -67,25 +66,19 @@ export default function App() {
       const decoded = jwt_decode(savedToken)
       return decoded.user
     } catch (err) {
-      console.warn(err.message)
+      console.log(err.message)
       return null
     }
   }
 
   const checkForCurrentWeek = userOwnerId => {
-    if (currentWeek.isFound) {
-      console.log('current week state found');
-      return true
-    } else {
+    if (!currentWeek.isFound) {
       userOwnerAxiosPut(userOwnerId)
-        .then(req => {
+        .then(() => {
           setCurrentWeek({ isFound: true, userOwner: userOwnerId })
-          return true
         })
         .catch(err => {
-          console.warn('no week found');
           console.warn(err);
-          return false
         })
     }
   }
@@ -101,25 +94,19 @@ export default function App() {
 
   const logoutHandler = (e) => {
     e.preventDefault()
-    localStorage.removeItem("token")
     setCurrentUser(nullUser)
     setCurrentWeek(nullWeek)
-    console.log('Clearing session storage...')
     sessionStorage.clear()
-    if (!sessionStorage.token) {
-      console.log('...session storage is clear!');
-    } else {
-      console.err('...session storage has not been cleared');
-    }
   }
 
   return (
     <div id='main'>
       <div id='main-transparent'>
-        <div id='main-opaque'>
+
           <Box>
             <Nav currentUser={currentUser} logoutHandler={logoutHandler} />
           </Box>
+
           <Box>
             <Routes>
               <Route path='/' element={<Home />}></Route>
@@ -128,9 +115,8 @@ export default function App() {
               <Route path='week/*' element={<WeekDisplay />}></Route>
               <Route path='*' element={<NoMatch />}></Route>
             </Routes>
-
           </Box>
-        </div>
+
       </div>
     </div>
   )
