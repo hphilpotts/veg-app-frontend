@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { v4 as uuidv4} from 'uuid'
+
 import {currentWeekCommencing, todayAsDayNumber, daysOfTheWeek} from '../utils/daysHelper'
 
 export default function CurrentWeek(props) {
@@ -9,6 +11,7 @@ export default function CurrentWeek(props) {
   const currentWeek = props.currentWeek
   
   const dayDataReversed = []
+  
   daysOfTheWeek.forEach((day, index) => {
     dayDataReversed.unshift(
       {
@@ -18,8 +21,6 @@ export default function CurrentWeek(props) {
     )
   })
 
-  // TODO - implement uuid keys for mapped dayDataReversed components instead of current ...getTime() method
-
   return (
     <>
       <div>
@@ -28,7 +29,7 @@ export default function CurrentWeek(props) {
 
         {dayDataReversed.map((day, index) => (
           (index >= today) ?
-              <div key={index + new Date().getTime()}>
+              <div key={uuidv4()}>
                 {(index === today) ?
                   <h4>Today</h4>
                   :
