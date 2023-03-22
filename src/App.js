@@ -20,7 +20,7 @@ export default function App() {
   const nullUser = { loggedIn: false, username: null, id: null }
   const [currentUser, setCurrentUser] = useState(nullUser)
 
-  const nullWeek = { isFound: false, userOwner: null }
+  const nullWeek = { isFound: false, userOwner: null, data: {} }
   const [currentWeek, setCurrentWeek] = useState(nullWeek)
 
   useEffect(() => {
@@ -73,9 +73,9 @@ export default function App() {
 
   const checkForCurrentWeek = userOwnerId => {
     if (!currentWeek.isFound) {
-      userOwnerAxiosPut(userOwnerId)
-        .then(() => {
-          setCurrentWeek({ isFound: true, userOwner: userOwnerId })
+      userOwnerAxiosPut(userOwnerId, 'current')
+        .then(res => {
+          setCurrentWeek({ isFound: true, userOwner: userOwnerId, data: res.data.Week })
         })
         .catch(err => {
           console.warn(err);
@@ -83,13 +83,14 @@ export default function App() {
     }
   }
 
-  const userOwnerAxiosPut = async userOwnerId => {
-    Axios({
+  const userOwnerAxiosPut = async (userOwnerId, path) => {
+    const res = await Axios({
       method: 'put',
-      url: '/week/current',
+      url: `/week/${path}`,
       headers: { 'x-auth-token': sessionStorage.token },
       data: { "userOwner": userOwnerId }
     })
+    return res
   }
 
   const logoutHandler = (e) => {
@@ -112,7 +113,7 @@ export default function App() {
               <Route path='/' element={<Home />}></Route>
               <Route path='user/*' element={<Auth authHandler={authHandler} />}></Route>
               <Route path='/profile' element={<UserProfile currentUser={currentUser} />}></Route>
-              <Route path='week/*' element={<WeekDisplay />}></Route>
+              <Route path='week/*' element={<WeekDisplay currentWeek={currentWeek}/>}></Route>
               <Route path='*' element={<NoMatch />}></Route>
             </Routes>
           </Box>

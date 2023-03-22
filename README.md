@@ -222,6 +222,13 @@ _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` wit
 
 - `checkForCurrentWeek` refactored, this included refactoring out the Axios PUT request w/ a userOwner body: this can now be reused elsewhere. _Had to use async to allow for a `.then().catch()`.    
 
+21/03/23:   
+- Second parameter `path` added to `checkForCurrentWeek` to allow for reuse elsewhere as above.   
+- Now adding `id` property to `currentWeek` state.    
+
+22/03/23:   
+- CurrentWeek component now renders with days of the week and associated data from the current week, up to and including today. Future days during the week do not render (as they will naturally not have any data).   
+
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   

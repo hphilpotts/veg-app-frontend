@@ -8,14 +8,14 @@ import CurrentWeek from './CurrentWeek'
 
 
 
-export default function WeekDisplay() {
+export default function WeekDisplay(props) {
   return (
     <>
       <Box className='auth-container'>
         <Paper elevation={3} className='auth-paper'>
           <Routes>
             <Route ></Route>
-            <Route path='currentWeek' element={<CurrentWeek />}></Route>
+            <Route path='currentWeek' element={<CurrentWeek currentWeek={props.currentWeek}/>}></Route>
             <Route path='index' element={<WeekIndex/>}></Route>
           </Routes>
           <Outlet />
