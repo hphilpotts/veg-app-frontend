@@ -1,12 +1,13 @@
 import React from 'react'
 
+import {currentWeekCommencing, todayAsDayNumber, daysOfTheWeek} from '../utils/daysHelper'
+
 export default function CurrentWeek(props) {
 
-  const currentWeek = props.currentWeek
+  const today = todayAsDayNumber
 
-  const weekCommencing = new Date(currentWeek.data.weekCommencing).toLocaleDateString()
-  const today = new Date().getDay()
-  const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  const currentWeek = props.currentWeek
+  
   const dayDataReversed = []
   daysOfTheWeek.forEach((day, index) => {
     dayDataReversed.unshift(
@@ -17,15 +18,13 @@ export default function CurrentWeek(props) {
     )
   })
 
-  // TODO - abstract out weekCommencing, today, daysOfTheWeek to a helper function
-
   // TODO - implement uuid keys for mapped dayDataReversed components instead of current ...getTime() method
 
   return (
     <>
       <div>
         <h1>Current Week</h1>
-        <h2>w/c {weekCommencing}</h2>
+        <h2>w/c {currentWeekCommencing}</h2>
 
         {dayDataReversed.map((day, index) => (
           (index >= today) ?

@@ -228,6 +228,7 @@ _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` wit
 
 22/03/23:   
 - CurrentWeek component now renders with days of the week and associated data from the current week, up to and including today. Future days during the week do not render (as they will naturally not have any data).   
+- `weekCommencing`, `today`, `daysOfTheWeek` abstracted out to helpers within `utils/daysHelper.js` as these will be reused.     
 
 
 ## Issues to resolve:   
