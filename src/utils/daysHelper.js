@@ -1,7 +1,7 @@
-const currentWeekCommencing = new Date().toLocaleDateString()
+const getFriendlyWeekCommencing = weekCommencing => new Date(weekCommencing).toLocaleDateString()
 
 const todayAsDayNumber = new Date().getDay()
 
 const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-module.exports = {currentWeekCommencing, todayAsDayNumber, daysOfTheWeek}
+module.exports = {getFriendlyWeekCommencing, todayAsDayNumber, daysOfTheWeek}
