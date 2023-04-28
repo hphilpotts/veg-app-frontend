@@ -231,6 +231,8 @@ _I have had to use `// eslint-disable-next-line react-hooks/exhaustive-deps` wit
 - `weekCommencing`, `today`, `daysOfTheWeek` abstracted out to helpers within `utils/daysHelper.js` as these will be reused.    
 - Fixed bug where `weekCommencing` was being calculated as today's date where I had removed `currentWeek.data.weekCommencing` from the `new Date()` : updated `daysHelper.js` accordingly, renamed some functions for clarity also.   
 
+My next step will be breaking each day rendered in CurrentWeek into components: these should be reusable across other parent components.    
+
 
 ## Issues to resolve:   
 - MUI themes currently being directly overridden using CSS - needs updating to use MUI Theming instead.   

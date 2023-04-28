@@ -7,9 +7,13 @@ import {getFriendlyWeekCommencing, todayAsDayNumber, daysOfTheWeek} from '../uti
 export default function CurrentWeek(props) {
 
   const currentWeek = props.currentWeek
+  
+  console.log(currentWeek);
 
-  const today = todayAsDayNumber
+  // if (currentWeek)
+
   const weekCommencing = getFriendlyWeekCommencing(currentWeek.data.weekCommencing)
+  const today = todayAsDayNumber
 
   const dayDataReversed = []
 

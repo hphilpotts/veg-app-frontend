@@ -25,9 +25,13 @@ export default function App() {
 
   useEffect(() => {
     try {
-      updateStateFromToken(sessionStorage.token)
+      if (currentUser.loggedIn) {
+        console.log('user already found as state');
+      } else {
+        updateStateFromToken(sessionStorage.token)
+      }
     } catch {
-      sessionStorage.token ? console.err('Invalid token in Session Storage') : console.log('No token found in session storage');
+      sessionStorage.token ? console.error('Invalid token in Session Storage') : console.log('No token found in session storage');
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -71,14 +75,25 @@ export default function App() {
     }
   }
 
-  const checkForCurrentWeek = userOwnerId => {
+  const checkForCurrentWeek = async userOwnerId => {
     if (!currentWeek.isFound) {
-      userOwnerAxiosPut(userOwnerId, 'current')
+      await userOwnerAxiosPut(userOwnerId, 'current')
         .then(res => {
-          setCurrentWeek({ isFound: true, userOwner: userOwnerId, data: res.data.Week })
+          console.log(res.data.Week);
+          if (res.data.Week) {
+            setCurrentWeek({ isFound: true, userOwner: userOwnerId, data: res.data.Week })
+          } else {
+            createNewWeekByUserOwner(userOwnerId)
+              .then(res => {
+                setCurrentWeek({ isFound: true, userOwner: userOwnerId, data: res.data.Week })
+              })
+              .catch(err => {
+                console.warn(err)
+              })
+          }
         })
         .catch(err => {
-          console.warn(err);
+          console.warn(err)
         })
     }
   }
@@ -92,6 +107,17 @@ export default function App() {
     })
     return res
   }
+
+  const createNewWeekByUserOwner = async userOwnerId => {
+    const res = await Axios({
+      method: 'post',
+      url: `/week/newWeek`,
+      headers: { 'x-auth-token': sessionStorage.token },
+      data: { "userOwner": userOwnerId }
+    })
+    return res
+  }
+
 
   const logoutHandler = (e) => {
     e.preventDefault()
